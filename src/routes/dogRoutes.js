@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-//Dog Model
+//Load Dog Model
 const Dog = mongoose.model('Dog');
 
 // Dog Route Handlers
@@ -24,6 +24,43 @@ router.get('/api/dogs', async (req, res) => {
 		res.send(dogs);
 	} catch (error) {
 		res.send(error);
+	}
+});
+
+router.get('/api/dogs/:id', async (req, res) => {
+	try {
+		const dog = await Dog.findById(req.params.id);
+		if (!dog) return res.status(404).send('none found');
+		res.send(dog);
+	} catch (error) {
+		res.status(500).send(error);
+	}
+});
+
+router.patch('/api/dogs/:id', async (req, res) => {
+	try {
+		const dog = await Dog.findByIdAndUpdate(req.params.id, req.body, {
+			new: true,
+			runValidators: true
+		});
+		if (!dog) {
+			return res.status(404).send('Dog Not found');
+		}
+		res.send(dog);
+	} catch (error) {
+		res.status(500).send(error);
+	}
+});
+
+router.delete('/api/dogs/:id', async (req, res) => {
+	try {
+		const dog = await Dog.findByIdAndDelete(req.params.id);
+		if (!dog) {
+			return res.status(404).send('Dog Not found');
+		}
+		res.send(dog);
+	} catch (error) {
+		res.status(500).send(error);
 	}
 });
 
