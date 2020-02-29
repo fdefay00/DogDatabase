@@ -13,6 +13,7 @@ const dogSchema = new Schema({
 	mom: { type: Schema.Types.ObjectId, ref: 'Dog' },
 	dad: { type: Schema.Types.ObjectId, ref: 'Dog' },
 	children: [{ type: Schema.Types.ObjectId, ref: 'Dog' }],
+	created: Date,
 	lastUpdated: Date
 });
 

@@ -4,7 +4,12 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node index.js"
+		"start": "node index.js",
+		"dev": "env-cmd ./config/dev.env nodemon index.js",
+		"test": "env-cmd ./config/test.env jest --watch"
+	},
+	"jest": {
+		"testEnvironments": "node"
 	},
 	"keywords": [],
 	"author": "",
@@ -13,5 +18,10 @@
 		"create-react-app": "^3.3.1",
 		"express": "^4.17.1",
 		"mongoose": "^5.8.11"
+	},
+	"devDependencies": {
+		"env-cmd": "^8.0.2",
+		"jest": "^25.1.0",
+		"supertest": "^4.0.2"
 	}
 }

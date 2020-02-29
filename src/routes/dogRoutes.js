@@ -7,6 +7,7 @@ const Dog = mongoose.model('Dog');
 // Dog Route Handlers
 const router = new express.Router();
 
+//Add new dog to database
 router.post('/api/dogs', async (req, res) => {
 	const dog = new Dog(req.body);
 
@@ -18,6 +19,7 @@ router.post('/api/dogs', async (req, res) => {
 	}
 });
 
+//Get list of all dogs currently in DB
 router.get('/api/dogs', async (req, res) => {
 	try {
 		const dogs = await Dog.find({});
@@ -27,6 +29,7 @@ router.get('/api/dogs', async (req, res) => {
 	}
 });
 
+//Get one specific dog info based on ID
 router.get('/api/dogs/:id', async (req, res) => {
 	try {
 		const dog = await Dog.findById(req.params.id);
@@ -37,6 +40,7 @@ router.get('/api/dogs/:id', async (req, res) => {
 	}
 });
 
+//Update a dog's info
 router.patch('/api/dogs/:id', async (req, res) => {
 	try {
 		const dog = await Dog.findByIdAndUpdate(req.params.id, req.body, {
@@ -46,12 +50,14 @@ router.patch('/api/dogs/:id', async (req, res) => {
 		if (!dog) {
 			return res.status(404).send('Dog Not found');
 		}
+		dog.lastUpdated = new Date();
 		res.send(dog);
 	} catch (error) {
 		res.status(500).send(error);
 	}
 });
 
+//Remove a dog from DB
 router.delete('/api/dogs/:id', async (req, res) => {
 	try {
 		const dog = await Dog.findByIdAndDelete(req.params.id);
